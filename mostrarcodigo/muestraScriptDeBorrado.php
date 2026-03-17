@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tema 4 | Óscar Pozuelo Villamandos</title>
-        <link rel="stylesheet" href="../../webroot/css/fonts.css">
-        <link rel="stylesheet" href="../../webroot/css/all.min.css">
+        <link rel="stylesheet" href="../webroot/css/fonts.css">
+        <link rel="stylesheet" href="../webroot/css/all.min.css">
         <link rel="stylesheet" href="../webroot/css/estilos.css"> 
         <link rel="stylesheet" href="../webroot/css/estilosTabla.css"> 
     </head>
