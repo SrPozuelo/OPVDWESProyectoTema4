@@ -23,7 +23,7 @@
                 </div>
             </div>
         </header>
-        <main id="contenedor">
+        <main id="contenedorMostrar">
             <div id="titulo">ConfDBPDO.php</div>
             <?php
                 highlight_file("../conf/ConfDBPDO.php");

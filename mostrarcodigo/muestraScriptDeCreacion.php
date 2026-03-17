@@ -23,7 +23,7 @@
                 </div>
             </div>
         </header>
-        <main id="contenedor">
+        <main id="contenedorMostrar">
             <div id="titulo">EDOPVCreacion.sql</div>
             <?php
                 highlight_file("../scripts/EDOPVCreacion.sql");

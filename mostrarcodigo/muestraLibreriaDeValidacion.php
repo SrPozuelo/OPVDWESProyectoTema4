@@ -23,7 +23,7 @@
                 </div>
             </div>
         </header>
-        <main id="contenedor">
+        <main id="contenedorMostrar">
             <div id="titulo">libreriaValidacion.php</div>
             <?php
                 highlight_file("../core/libreriaValidacion.php");

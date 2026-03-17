@@ -23,7 +23,7 @@
                 </div>
             </div>
         </header>
-        <main id="contenedor">
+        <main id="contenedorMostrar">
             <div id="titulo">ejercicio0X.php</div>
             <?php
                 highlight_file("../codigoPHP/ejercicio0X.php");
