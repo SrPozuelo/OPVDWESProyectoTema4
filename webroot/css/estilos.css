@@ -22,6 +22,14 @@ body {
         font-weight:bolder;
         font-size:1.5rem;
     }
+    & main .titulo{
+        display:grid;
+        width:100dvw;
+        height:5vh;
+        place-content:center;
+        font-weight:bolder;
+        font-size:1.5rem;
+    }
 }
 /* --- HEADER --- */
 .cabecera-principal {

@@ -24,9 +24,9 @@
             </div>
         </header>
         <main id="contenedor">
-            <div id="titulo">EDOPVCreacion.sql</div>
+            <div id="titulo">ConfDBPDO.php</div>
             <?php
-                highlight_file("../scripts/EDOPVCreacion.sql");
+                highlight_file("../conf/ConfDBPDO.php");
             ?>
         </main>
         <footer class="pie-pagina">

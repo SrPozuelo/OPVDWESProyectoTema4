@@ -3,11 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tema 3 | Óscar Pozuelo Villamandos</title>
-        <link rel="stylesheet" href="../webroot/css/fonts.css">
-        <link rel="stylesheet" href="../webroot/css/all.min.css">
-        <link rel="stylesheet" href="webroot/css/estilos.css"> 
-        <link rel="stylesheet" href="webroot/css/estilosTabla.css"> 
+        <title>Tema 4 | Óscar Pozuelo Villamandos</title>
+        <link rel="stylesheet" href="../../webroot/css/fonts.css">
+        <link rel="stylesheet" href="../../webroot/css/all.min.css">
+        <link rel="stylesheet" href="../webroot/css/estilos.css"> 
+        <link rel="stylesheet" href="../webroot/css/estilosTabla.css"> 
     </head>
     <body>
         <header class="cabecera-principal">
@@ -19,7 +19,7 @@
                     <h1>Óscar Pozuelo Villamandos</h1>
                 </div>
                 <div class="curso-badge" style="background-color: #777BB4; color: white;">
-                    Tema 3
+                    Tema 4
                 </div>
             </div>
         </header>
