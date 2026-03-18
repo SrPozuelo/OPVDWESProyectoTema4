@@ -62,6 +62,12 @@ body {
         & .variable{
             color:blue;
         }
+        & .azul{
+            color:cornflowerblue;
+        }
+        & .rojo{
+            color:red;
+        }
         & p,& .xdebug-var-dump,& pre{
             margin:0;
             padding:0;
