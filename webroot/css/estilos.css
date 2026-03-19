@@ -31,6 +31,35 @@ body {
             font-weight:bolder;
             font-size:1.5rem;
         }
+        & .TablaPHP{
+            width:80dvw;
+            border-collapse:collapse;
+            border:1px solid black;
+            margin-top:2dvh;
+            margin-left:10dvw;
+            & thead{
+                background-color:#777BB4;
+                & tr th{
+                    color:white;
+                    border:1px solid black;
+                }
+            }
+            & tbody{
+                & tr td{
+                    border:1px solid black;
+                    padding-left:2dvw;
+                }
+                & .centrado{
+                    padding-left:0 !important;
+                    text-align:center;
+                }
+                & .importe{
+                    padding-right:2dvw;
+                    padding-left:0 !important;
+                    text-align:right;
+                }
+            }
+        }
     }
     & #contenedor{
         & #titulo{
@@ -118,8 +147,9 @@ body {
             display:grid;
             width:80dvw;
             height:20dvw;
-            margin-top:10dvw;
+            margin-top:5dvw;
             margin-left:10dvw;
+            margin-bottom:10dvh;
             place-content:center;
             & .sinErrores{
                 width:30dvw;

@@ -32,7 +32,41 @@
                 * 2. Mostrar el contenido de la tabla Departamento y el número de registros.
                 */
                 require_once '../conf/ConfDBPDO.php';
-                echo '<h3>Tabla usando consultas preparadas</h3>';
+                echo("<h3>Tabla usando fetchObject() y consultas preparadas:</h3>");
+                echo'<table class="TablaPHP">';
+                    echo("<thead>");
+                    echo '<tr>';
+                    echo' <th>Codigo </th>';
+                    echo '<th>Descripción </th>';
+                    echo '<th>Fecha Creación </th>';     
+                    echo '<th>Volumen de Negocio</th>';
+                    echo '<th>Fecha Baja</th>';
+                    echo '</tr>';
+                    echo("</thead>");
+                    $miDB=new PDO(DSN,USERNAME,PASSWORD);
+                    $resultadoConsulta=$miDB->prepare('SELECT * FROM T02_Departamento');
+                    $resultadoConsulta->execute();
+                    while ($oRegistroObject = $resultadoConsulta->fetchObject()) {
+                        echo '<tr>';
+                        echo '<td>'.$oRegistroObject->T02_CodDepartamento.'</td>';
+                        echo '<td>'.$oRegistroObject->T02_DescDepartamento.'</td>';
+                        $oFechaCreacion = new DateTime($oRegistroObject->T02_FechaCreacionDepartamento);
+                        echo "<td class='centrado'>".$oFechaCreacion->format("d-m-Y")."</td>";
+                        echo '<td class="importe">'.number_format($oRegistroObject->T02_VolumenDeNegocio, 2, ',', '.').'€</td>';
+                        if(!is_null($oRegistroObject->T02_FechaBajaDepartamento)) {
+                            //si no se pone la condición la fecha no es null
+                            $oFechaBaja = new DateTime($oRegistroObject->T02_FechaBajaDepartamento);
+                            echo '<td>' . $oFechaBaja->format("d-m-Y") . '</td>';
+                        }
+                        else{
+                            echo '<td>Activo</td>';
+                        }
+                        echo '</tr>';
+                    }
+                    echo '<tr>';
+                    echo "<td class='centrado' colspan=5><strong>Número de registros:</strong>".$resultadoConsulta->rowCount()."</td>";
+                echo '</table>';
+                echo '<h3>Tabla usando consultas preparadas:</h3>';
                 //variable para contar el numero de registros recuperados de la BBDD
                 $iNumRegistros=0;
                 try {
@@ -40,7 +74,8 @@
                     $sql="select * from T02_Departamento";
                     $consulta=$miDB->prepare($sql);
                     $consulta->execute();
-                    echo '<table>';
+                    echo '<table class="TablaPHP">';
+                    echo("<thead>");
                     echo '<tr>';
                     echo '<th>Código▼</th>';
                     echo '<th>Departamento</th>';
@@ -48,6 +83,7 @@
                     echo '<th>Volumen de Negocio</th>';
                     echo '<th>Fecha de Baja</th>';
                     echo '</tr>';
+                    echo("</thead>");
                     while ($registro = $consulta->fetch()) {
                         echo '<tr>';
                         echo '<td>'.$registro['T02_CodDepartamento'].'</td>';
@@ -68,7 +104,7 @@
                         $iNumRegistros++;
                     }
                     echo '</table>';
-                    echo '<h3>Número de registros: '.$iNumRegistros.'</h3>';
+                    echo '<h4>Número de registros: '.$iNumRegistros.'</h4>';
                 }
                 catch(PDOException $miExceptionPDO) {
                     echo 'Error: '.$miExceptionPDO->getMessage();
@@ -78,7 +114,7 @@
                 finally{
                     unset($miDB);
                 }
-                echo '<h3>Tabla usando consultas con query</h3>';
+                echo '<h3>Tabla usando consultas con query:</h3>';
                 try {
                     $miDB=new PDO(DSN,USERNAME,PASSWORD);
                     $sql="select * from T02_Departamento";
@@ -86,7 +122,8 @@
                     // $numRegistros = $miDB->exec('select * from T02_Departamento');
                     $iNumRegistros=0;
                     $consulta=$miDB->query($sql);
-                    echo '<table>';
+                    echo '<table class="TablaPHP">';
+                    echo("<thead>");
                     echo '<tr>';
                     echo '<th>Código▼</th>';
                     echo '<th>Departamento</th>';
@@ -94,6 +131,7 @@
                     echo '<th>Volumen de Negocio</th>';
                     echo '<th>Fecha de Baja</th>';
                     echo '</tr>';
+                    echo("</thead>");
                     while ($registro=$consulta->fetch()) {
                         echo '<tr>';
                         echo '<td>'.$registro['T02_CodDepartamento'].'</td>';
@@ -114,13 +152,14 @@
                         $iNumRegistros++;
                     }
                     echo '</table>';
-                    echo '<h3>Número de registros: '.$iNumRegistros.'</h3>';
-
-                } catch (PDOException $miExceptionPDO) {
+                    echo '<h4>Número de registros: '.$iNumRegistros.'</h4>';
+                }
+                catch (PDOException $miExceptionPDO) {
                     echo 'Error: '.$miExceptionPDO->getMessage();
                     echo '<br>';
                     echo 'Código de error: '.$miExceptionPDO->getCode();
-                } finally {
+                }
+                finally {
                     unset($miDB);
                 }
             ?>
