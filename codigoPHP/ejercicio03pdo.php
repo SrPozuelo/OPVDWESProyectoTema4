@@ -28,8 +28,6 @@
             <?php
                 require_once "../core/libreriaValidacion.php";
                 require_once "../conf/ConfDBPDO.php";
-                $miDB=new PDO(DSN,USERNAME,PASSWORD);
-                $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 //Variable interruptor que nos indica que la entrada es correcta
                 $entradaOK=true;
                 //Array asociativo preparado para recoger los mensajes de error
@@ -37,16 +35,14 @@
                     'CodDepartamento'          =>'', 
                     'DescDepartamento'         =>'',
                     'FechaCreacionDepartamento'=>'',
-                    'VolumenDeNegocio'         =>'',
-                    'FechaBajaDepartamento'    =>''
+                    'VolumenDeNegocio'         =>''
                 ];
                 //Array asociativo preparado para recoger las respuestas correctas (si $entradaOK)
                 $aRespuestas=[ 
                     'CodDepartamento'          =>'', 
                     'DescDepartamento'         =>'',
                     'FechaCreacionDepartamento'=>'',
-                    'VolumenDeNegocio'         =>'',
-                    'FechaBajaDepartamento'    =>''
+                    'VolumenDeNegocio'         =>''
                 ];
                 //Para cada campo del formulario: Validar entrada de los datos
                 if (isset($_REQUEST["Enviar"])){
@@ -54,17 +50,27 @@
                     // Validamos los datos del formulario
                     $aErrores['CodDepartamento']=validacionFormularios::comprobarAlfabetico($_REQUEST['CodDepartamento'],3,1,1);
                     if(empty($aErrores['CodDepartamento'])){
-                        $sql2="SELECT T02_CodDepartamento FROM T02_Departamento WHERE T02_CodDepartamento='{$_REQUEST['CodDepartamento']}'";
-                        $resultadoConsulta=$miDB->prepare($sql2);
-                        $resultadoConsulta->execute();
-                        if($resultadoConsulta->rowCount()>0){
-                            $aErrores['CodDepartamento']="Ya existe un departamento con este código.";
+                        try{
+                            $miDB=new PDO(DSN,USERNAME,PASSWORD);
+                            $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                            $sql2="SELECT T02_CodDepartamento FROM T02_Departamento WHERE T02_CodDepartamento='{$_REQUEST['CodDepartamento']}'";
+                            $resultadoConsulta=$miDB->prepare($sql2);
+                            $resultadoConsulta->execute();
+                            if($resultadoConsulta->rowCount()>0){
+                                $aErrores['CodDepartamento']="Ya existe un departamento con este código.";
+                            }
+                        }
+                        catch(PDOException $miExceptionPDO){
+                            echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
+                            echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
+                        }
+                        finally{
+                            unset($miDB);
                         }
                     }
                     $aErrores['DescDepartamento']=validacionFormularios::comprobarAlfaNumerico($_REQUEST['DescDepartamento'],1000,1,1);
                     $aErrores['FechaCreacionDepartamento']=validacionFormularios::validarFecha($_REQUEST['FechaCreacionDepartamento']);
                     $aErrores['VolumenDeNegocio']= validacionFormularios::comprobarFloatMonetarioES($_REQUEST['VolumenDeNegocio'],PHP_FLOAT_MAX,0,1);
-                    $aErrores['FechaBajaDepartamento']=validacionFormularios::validarFecha($_REQUEST['FechaBajaDepartamento'],"31-12-9999",(new DateTime())->format("d-m-Y"),0);
                     foreach($aErrores as $campo => $valor){
                         if(!empty($valor)){
                             //Comprobar si el valor es válido
@@ -86,29 +92,37 @@
                     $aRespuestas['DescDepartamento']=$_REQUEST['DescDepartamento'];
                     $aRespuestas['FechaCreacionDepartamento']=(new DateTime($_REQUEST['FechaCreacionDepartamento']));
                     $aRespuestas['VolumenDeNegocio']=$_REQUEST['VolumenDeNegocio'].' €';
-                    (empty($_REQUEST['FechaBajaDepartamento']))?$aRespuestas['FechaBajaDepartamento']='No tiene':$aRespuestas['FechaBajaDepartamento']=(new DateTime($_REQUEST['FechaBajaDepartamento']));
+                    (empty($_REQUEST['FechaBajaDepartamento']))?$aRespuestas['FechaBajaDepartamento']=null:$aRespuestas['FechaBajaDepartamento']=(new DateTime($_REQUEST['FechaBajaDepartamento']));
                     try{
+                        $miDB=new PDO(DSN,USERNAME,PASSWORD);
+                        $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                         $aRespuestas['VolumenDeNegocio']=str_replace(',','.',$_REQUEST['VolumenDeNegocio']);
-                        $sql="INSERT INTO T02_Departamento(T02_CodDepartamento,T02_DescDepartamento,T02_FechaCreacionDepartamento,T02_VolumenDeNegocio,T02_FechaBajaDepartamento) VALUES(
+                        $sql="INSERT INTO T02_Departamento(T02_CodDepartamento,T02_DescDepartamento,T02_FechaCreacionDepartamento,T02_VolumenDeNegocio) VALUES(
                             '{$aRespuestas['CodDepartamento']}',
                             '{$aRespuestas['DescDepartamento']}',
-                            '{$aRespuestas['FechaCreacionDepartamento']->format("d-m-y")}',
-                            '{$aRespuestas['VolumenDeNegocio']}',
-                            '{$aRespuestas['FechaBajaDepartamento']->format("d-m-y")}'
+                            '{$aRespuestas['FechaCreacionDepartamento']->format("y-m-d")}',
+                            '{$aRespuestas['VolumenDeNegocio']}'
                         )";
-                        $miDB->query($sql);
-                        $aRespuestas['CodDepartamento']='';
-                        $aRespuestas['DescDepartamento']='';
-                        $aRespuestas['VolumenDeNegocio']='';
+                        $resultadoConsulta=$miDB->prepare($sql);
+                        $resultadoConsulta->execute();
+                        $_REQUEST['CodDepartamento']='';
+                        $_REQUEST['DescDepartamento']='';
+                        $_REQUEST['VolumenDeNegocio']='';
                     }
                     catch (PDOException $miExceptionPDO) {
                         echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
                         echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
                     }
+                    finally{
+                        unset($miDB);
+                    }
                 }
             ?>
             <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                 <table class="formulario conErrores">
+                    <tr>
+                        <td colspan="3"><h3>Crear nuevo departamento:</h3></td>
+                    </tr>
                     <tr>
                         <td>
                             <label for="cod">Código:</label>
@@ -154,23 +168,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <label for="baja">Fecha de baja:</label>
-                        </td>
-                        <td>
-                            <input type="date" name="FechaBajaDepartamento" class="fecha" id="FechaBajaDepartamento" value="<?php echo(isset($_REQUEST["FechaBajaDepartamento"])&&empty($aErrores["FechaBajaDepartamento"]))?$_REQUEST["FechaBajaDepartamento"]:''?>">
-                        </td>
-                        <td class="span">
-                            <span><?php echo $aErrores['FechaBajaDepartamento']?></span>
-                        </td>
-                    </tr>
-                    <tr>
                         <td colspan="3" id="Env">
                             <button type="submit" id="Enviar" name="Enviar">ENVIAR</button>
                         </td>
                     </tr>
                 </table>
             </form>
+            <h3>Listado actual de los departamentos:</h3>
             <table class="TablaPHP">
                 <thead>
                     <tr>
@@ -183,29 +187,39 @@
                 </thead>
                 <tbody>
                     <?php
-                        $miDB=new PDO(DSN,USERNAME,PASSWORD);
-                        $resultadoConsulta=$miDB->prepare('SELECT * FROM T02_Departamento');
-                        $resultadoConsulta->execute();
-                        while($oRegistroObject=$resultadoConsulta->fetchObject()){
-                            echo '<tr>';
-                            echo '<td>'.$oRegistroObject->T02_CodDepartamento.'</td>';
-                            echo '<td>'.$oRegistroObject->T02_DescDepartamento.'</td>';
-                            $oFechaCreacion = new DateTime($oRegistroObject->T02_FechaCreacionDepartamento);
-                            echo "<td class='centrado'>".$oFechaCreacion->format("d-m-Y")."</td>";
-                            echo '<td class="importe">'.number_format($oRegistroObject->T02_VolumenDeNegocio, 2, ',', '.').'€</td>';
-                            if(!is_null($oRegistroObject->T02_FechaBajaDepartamento)){
-                                //si no se pone la condición la fecha no es null
-                                $oFechaBaja = new DateTime($oRegistroObject->T02_FechaBajaDepartamento);
-                                echo '<td>' . $oFechaBaja->format("d-m-Y") . '</td>';
+                        try{
+                            $miDB=new PDO(DSN,USERNAME,PASSWORD);
+                            $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                            $resultadoConsulta=$miDB->prepare('SELECT * FROM T02_Departamento');
+                            $resultadoConsulta->execute();
+                            while($oRegistroObject=$resultadoConsulta->fetchObject()){
+                                echo '<tr>';
+                                echo '<td class="centrado">'.$oRegistroObject->T02_CodDepartamento.'</td>';
+                                echo '<td>'.$oRegistroObject->T02_DescDepartamento.'</td>';
+                                $oFechaCreacion = new DateTime($oRegistroObject->T02_FechaCreacionDepartamento);
+                                echo "<td class='centrado'>".$oFechaCreacion->format("d-m-Y")."</td>";
+                                echo '<td class="importe">'.number_format($oRegistroObject->T02_VolumenDeNegocio, 2, ',', '.').'€</td>';
+                                if(!is_null($oRegistroObject->T02_FechaBajaDepartamento)){
+                                    //si no se pone la condición la fecha no es null
+                                    $oFechaBaja = new DateTime($oRegistroObject->T02_FechaBajaDepartamento);
+                                    echo '<td>' . $oFechaBaja->format("d-m-Y") . '</td>';
+                                }
+                                else{
+                                    echo '<td>No tiene</td>';
+                                }
+                                echo '</tr>';
                             }
-                            else{
-                                echo '<td>No tiene</td>';
-                            }
-                            echo '</tr>';
                             echo '<tr>';
+                            echo "<td class='centrado' colspan=5><strong>Número de registros:</strong>".$resultadoConsulta->rowCount()."</td>";
+                            echo "</tr>";
                         }
-                        echo "<td class='centrado' colspan=5><strong>Número de registros:</strong>".$resultadoConsulta->rowCount()."</td>";
-                        echo "</tr>";
+                        catch(PDOException $miPDOException){
+                            echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
+                            echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
+                        }
+                        finally{
+                            unset($miDB);
+                        }
                     ?>
                 </tbody>
             </table>

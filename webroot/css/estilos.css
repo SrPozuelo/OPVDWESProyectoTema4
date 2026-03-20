@@ -50,13 +50,7 @@ body {
                     padding-left:2dvw;
                 }
                 & .centrado{
-                    padding-left:0 !important;
                     text-align:center;
-                }
-                & .importe{
-                    padding-right:2dvw;
-                    padding-left:0 !important;
-                    text-align:right;
                 }
             }
         }
@@ -108,20 +102,33 @@ body {
             border-collapse:collapse;
             border:1px solid black;
             margin-left:10dvw;
+            margin-bottom:5dvh;
             & thead{
                 background-color:#777BB4;
                 & tr th{
                     color:white;
                     border:1px solid black;
+                    padding-top:1dvh;
+                    padding-bottom:1dvh;
+                    font-size:1.5rem;
                 }
             }
             & tbody{
                 & tr td{
                     border:1px solid black;
-                    padding-left:2dvw;
+                    padding-left:6dvw;
+                    padding-top:1dvh;
+                    padding-bottom:1dvh;
+                    font-size:1.5rem;
                 }
                 & .centrado{
                     text-align:center;
+                    padding-left:0;
+                }
+                & .importe{
+                    padding-right:2dvw;
+                    padding-left:0 !important;
+                    text-align:right;
                 }
             }
         }
@@ -161,6 +168,8 @@ body {
             }
             & .conErrores{
                 width:60dvw;
+                background-color:lightblue;
+                border-radius:10px;
                 & tr{
                     & td:nth-of-type(1){
                         width:25%;
@@ -177,7 +186,7 @@ body {
                 border-collapse:collapse;
                 & tr{
                     & td{
-                        height:10dvh;
+                        height:7.5dvh;
                         & label{
                             display:grid;
                             width:100%;
@@ -198,11 +207,13 @@ body {
                         }
                         & .texto{
                             width:100%;
-                            height:40%;
+                            height:67%;
+                            border-radius:10px;
                         }
                         & .fecha{
                             width:50%;
-                            height:40%;
+                            height:67%;
+                            border-radius:10px;
                             text-align:center;
                         }
                         & #Enviar{
@@ -213,7 +224,9 @@ body {
                             color:white;
                             top:50%;
                             left:50%;
+                            border-radius:10px;
                             transform:translate(-50%,-50%);
+                            
                         }
                     }
                     & #Env, & .span{
