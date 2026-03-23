@@ -14,6 +14,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x:hidden;
     & #contenedorMostrar{
         & #titulo{
             display:grid;
@@ -152,11 +153,11 @@ body {
         }
         & form{
             display:grid;
-            width:80dvw;
+            /*width:80dvw;
             height:20dvw;
             margin-top:5dvw;
             margin-left:10dvw;
-            margin-bottom:10dvh;
+            margin-bottom:10dvh;*/
             place-content:center;
             & .sinErrores{
                 width:30dvw;
