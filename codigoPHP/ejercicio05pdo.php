@@ -24,13 +24,13 @@
             </div>
         </header>
         <main id="contenedor">
-            <div id="titulo">X-.</div>
+            <div id="titulo">5-Pagina web que añade tres registros a nuestra tabla Departamento. (Transacciones).</div>
         </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">
                 <div class="texto-legal">
                     <p>2025-26 IES LOS SAUCES. ©Todos los derechos reservados.</p>
-                    <p class="autor"><a href="https://oscarpozvil.ieslossauces.es" target="_blank">Óscar Pozuelo Villamandos.</a> Fecha de Actualización: 23-02-2026</p>
+                    <p class="autor"><a href="https://oscarpozvil.ieslossauces.es" target="_blank">Óscar Pozuelo Villamandos.</a> Fecha de Actualización: 24-03-2026</p>
                 </div>
                 <div class="iconos-footer">
                     <a href="https://github.com/SrPozuelo/OPVDWESProyectoTema4" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>

@@ -14,13 +14,239 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    & main #titulo{
-        display:grid;
-        width:100dvw;
-        height:5vh;
-        place-content:center;
-        font-weight:bolder;
-        font-size:1.5rem;
+    overflow-x:hidden;
+    & #contenedorMostrar{
+        & #titulo{
+            display:grid;
+            width:100dvw;
+            height:5vh;
+            place-content:center;
+            font-weight:bolder;
+            font-size:1.5rem;
+        }
+        & .titulo{
+            display:grid;
+            width:100dvw;
+            height:5vh;
+            place-content:center;
+            font-weight:bolder;
+            font-size:1.5rem;
+        }
+        & .TablaPHP{
+            width:80dvw;
+            border-collapse:collapse;
+            border:1px solid black;
+            margin-top:2dvh;
+            margin-left:10dvw;
+            & thead{
+                background-color:#777BB4;
+                & tr th{
+                    color:white;
+                    border:1px solid black;
+                }
+            }
+            & tbody{
+                & tr td{
+                    border:1px solid black;
+                    padding-left:2dvw;
+                }
+                & .centrado{
+                    text-align:center;
+                }
+            }
+        }
+    }
+    & #contenedor{
+        & #titulo{
+            display:grid;
+            width:100dvw;
+            height:5vh;
+            place-content:center;
+            font-weight:bolder;
+            font-size:1.5rem;
+        }
+        & h3{
+            height:3dvh;
+            margin-top:2.5dvh;
+            font-size:1.2rem;
+            margin-left:35%;
+        }
+        & h4{
+            height:2.5dvh;
+            margin-top:2dvh;
+            font-size:1.1rem;
+            margin-left:37%;
+        }
+        & .tipo{
+            color:darkorange;
+        }
+        & .valor{
+            color:rgb(0,200,0);
+        }
+        & .variable{
+            color:blue;
+        }
+        & .azul{
+            color:cornflowerblue;
+        }
+        & .rojo{
+            color:red;
+        }
+        & p,& .xdebug-var-dump,& pre{
+            margin:0;
+            padding:0;
+            margin-top:5px;
+            margin-left:40%;
+        }
+        & .TablaPHP{
+            width:80dvw;
+            border-collapse:collapse;
+            border:1px solid black;
+            margin-left:10dvw;
+            margin-bottom:5dvh;
+            & thead{
+                background-color:#777BB4;
+                & tr th{
+                    color:white;
+                    border:1px solid black;
+                    padding-top:1dvh;
+                    padding-bottom:1dvh;
+                    font-size:1.5rem;
+                }
+            }
+            & tbody{
+                & tr td{
+                    border:1px solid black;
+                    padding-left:6dvw;
+                    padding-top:1dvh;
+                    padding-bottom:1dvh;
+                    font-size:1.5rem;
+                }
+                & .centrado{
+                    text-align:center;
+                    padding-left:0;
+                }
+                & .importe{
+                    padding-right:2dvw;
+                    padding-left:0 !important;
+                    text-align:right;
+                }
+            }
+        }
+        & .teatro{
+            width:80dvw;
+            border-collapse:collapse;
+            margin-left:10dvw;
+            & tbody{
+                & tr td{
+                    border:1px solid black;
+                    text-align:center;
+                    padding:1dvh;
+                }
+                & .nada{
+                    border:0px solid black;
+                }
+                & .borde{
+                    background-color:grey;
+                }
+            }
+        }
+        & form{
+            display:grid;
+            /*width:80dvw;
+            height:20dvw;
+            margin-top:5dvw;
+            margin-left:10dvw;
+            margin-bottom:10dvh;*/
+            place-content:center;
+            & .sinErrores{
+                width:30dvw;
+                & tr{
+                    & td{
+                        width:50%;
+                    }
+                }
+            }
+            & .conErrores{
+                width:60dvw;
+                background-color:lightblue;
+                border-radius:10px;
+                & tr{
+                    & td:nth-of-type(1){
+                        width:25%;
+                    }
+                    & td:nth-of-type(2){
+                        width:35%;
+                    }
+                    & td:nth-of-type(3){
+                        width:40%;
+                    }
+                }
+            }
+            & .formulario{
+                border-collapse:collapse;
+                & tr{
+                    & td{
+                        height:7.5dvh;
+                        & label{
+                            display:grid;
+                            width:100%;
+                            height:100%;
+                            align-items:center;
+                            text-align:right;
+                            padding-right:10%;
+                        }
+                        & span{
+                            position:absolute;
+                            color:red;
+                            top:50%;
+                            left:3%;
+                            transform:translate(0%,-50%);
+                        }
+                        & input{
+                            font-size:1.2rem;
+                        }
+                        & .texto{
+                            width:100%;
+                            height:67%;
+                            border-radius:10px;
+                        }
+                        & .fecha{
+                            width:50%;
+                            height:67%;
+                            border-radius:10px;
+                            text-align:center;
+                        }
+                        & #Enviar{
+                            position:absolute;
+                            width:25%;
+                            height:50%;
+                            background-color:var(--color-principal);
+                            color:white;
+                            top:50%;
+                            left:50%;
+                            border-radius:10px;
+                            transform:translate(-50%,-50%);
+                            
+                        }
+                    }
+                    & #Env, & .span{
+                        position:relative;
+                    }
+                }
+            }
+        }
+        .obligatorio{
+            background-color:rgb(255,255,150);
+        }
+        .bloqueado{
+            background-color:lightgrey;
+        }
+    }
+    & .contenedor20{
+        & pre{
+            margin:0 !important;
+        }
     }
 }
 /* --- HEADER --- */

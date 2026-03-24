@@ -23,8 +23,11 @@
                 </div>
             </div>
         </header>
-        <main id="contenedor">
-            <div id="titulo">X-.</div>
+        <main id="contenedorMostrar">
+            <div id="titulo">ejercicio05pdo.php</div>
+            <?php
+                highlight_file("../codigoPHP/ejercicio05pdo.php");
+            ?>
         </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">
