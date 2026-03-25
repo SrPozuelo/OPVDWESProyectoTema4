@@ -41,7 +41,7 @@
                     [
                         'CodDepartamento'=>'MUS',
                         'DescDepartamento'=>'Departamento de música',
-                        'VolumenDeNegocio' =>6990.90
+                        'VolumenDeNegocio' =>1375.72
                     ]
                 ];
                 try {
@@ -51,21 +51,15 @@
                     // La consulta ahora usa marcadores con nombre (:nombre)
                     $sConsultaSQL="INSERT INTO T02_Departamento(T02_CodDepartamento,T02_DescDepartamento,T02_FechaCreacionDepartamento,T02_VolumenDeNegocio) VALUES (:codDepto,:descDepto,now(),:volNegocio)";
                     $oSentenciaPreparada = $oConexionPDO->prepare($sConsultaSQL);
-                    $sCodDepto;
-                    $sDescDepto;
-                    $iVolNegocio;
                     //Se vinculan las variables a los marcadores por su nombre
-                    $oSentenciaPreparada->bindParam(':codDepto', $sCodDepto);
-                    $oSentenciaPreparada->bindParam(':descDepto', $sDescDepto);
-                    $oSentenciaPreparada->bindParam(':volNegocio', $iVolNegocio);
-                    foreach ($aNuevosDepartamentos as $aDepto) {
+                    foreach ($aNuevosDepartamentos as $aDepartamento) {
+                        $oSentenciaPreparada->bindParam(':codDepto',$aDepartamento['CodDepartamento']);
+                        $oSentenciaPreparada->bindParam(':descDepto',$aDepartamento['DescDepartamento']);
+                        $oSentenciaPreparada->bindParam(':volNegocio',$aDepartamento['VolumenDeNegocio']);
                         echo "<h4><b>Intentando insertar:</b></h4>";
-                        echo "<p><span class='variable'>Código</span>=<span class='valor'>{$aDepto['CodDepartamento']}</span></p>";
-                        echo "<p><span class='variable'>Descripción</span>=<span class='valor'>{$aDepto['DescDepartamento']}</span></p>";
-                        echo "<p><span class='variable'>Volumen</span>=<span class='valor'>{$aDepto['VolumenDeNegocio']}</span></p>";
-                        $sCodDepto = $aDepto['CodDepartamento'];
-                        $sDescDepto = $aDepto['DescDepartamento'];
-                        $ivVolNegocio = $aDepto['VolumenDeNegocio'];
+                        echo "<p><span class='variable'>Código</span>=<span class='valor'>{$aDepartamento['CodDepartamento']}</span></p>";
+                        echo "<p><span class='variable'>Descripción</span>=<span class='valor'>{$aDepartamento['DescDepartamento']}</span></p>";
+                        echo "<p><span class='variable'>Volumen</span>=<span class='valor'>{$aDepartamento['VolumenDeNegocio']}</span></p>";
                         $oSentenciaPreparada->execute();
                     }
                     $oConexionPDO->commit();
