@@ -28,8 +28,26 @@
             <?php
                 require_once '../conf/ConfDBPDO.php';
                 try{
-                    $miDB=PDO(DSN,USERNAME,PASSWORD);
+                    $miDB=new PDO(DSN,USERNAME,PASSWORD);
                     $sql = "SELECT * FROM T02_Departamento";
+                    $Consulta = $miDB->prepare($sql);
+                    $Consulta->execute();
+                    $aDepartamentos=[];
+                    $Iindice=0;
+                    while($Registro=$Consulta->fetchObject()){
+                        $aDepartamentos[$Iindice]=[
+                            'CodDepartamento'          =>$Registro->T02_CodDepartamento,
+                            'DescDepartamento'         =>$Registro->T02_DescDepartamento,
+                            'FechaCreacionDepartamento'=>$Registro->T02_FechaCreacionDepartamento,
+                            'VolumenDeNegocio'         =>$Registro->T02_VolumenDeNegocio,
+                            'FechaBajaDepartamento'    =>$Registro->T02_FechaBajaDepartamento ?? 'NULL'
+                        ];
+                        $Iindice++;
+                    }
+                    $json=json_encode($aDepartamentos,JSON_PRETTY_PRINT);
+                    file_put_contents('../tmp/Departamentos.json',$json);
+                    echo("<h3>Contenido del archivo .json</h3>");
+                    highlight_file('../tmp/Departamentos.json');
                 }
                 catch(PDOException $miExceptionPDO){
                     echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
