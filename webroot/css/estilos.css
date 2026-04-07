@@ -92,6 +92,9 @@ body {
         & .rojo{
             color:red;
         }
+        & .verde{
+            color:green;
+        }
         & p,& .xdebug-var-dump,& pre{
             margin:0;
             padding:0;

@@ -25,6 +25,107 @@
         </header>
         <main id="contenedor">
             <div id="titulo">5-Pagina web que añade tres registros a nuestra tabla Departamento. (Transacciones).</div>
+            <?php
+                require_once "../conf/ConfDBPDO.php";
+                $aNuevosDepartamentos=[
+                    [
+                        'CodDepartamento'=>'QUI',
+                        'DescDepartamento'=>'Departamento de química',
+                        'VolumenDeNegocio' =>2352.33
+                    ],
+                    [
+                        'CodDepartamento'=>'HIS',
+                        'DescDepartamento'=>'Departamento de historia',
+                        'VolumenDeNegocio' =>6990.90
+                    ],
+                    [
+                        'CodDepartamento'=>'MUS',
+                        'DescDepartamento'=>'Departamento de música',
+                        'VolumenDeNegocio' =>1375.72
+                    ]
+                ];
+                try {
+                    $oConexionPDO=new PDO(DSN,USERNAME,PASSWORD);
+                    $oConexionPDO->beginTransaction();
+                    echo '<p>Iniciando transacción...</p>';
+                    // La consulta ahora usa marcadores con nombre (:nombre)
+                    $sConsultaSQL="INSERT INTO T02_Departamento(T02_CodDepartamento,T02_DescDepartamento,T02_FechaCreacionDepartamento,T02_VolumenDeNegocio) VALUES (:codDepto,:descDepto,now(),:volNegocio)";
+                    $oSentenciaPreparada = $oConexionPDO->prepare($sConsultaSQL);
+                    //Se vinculan las variables a los marcadores por su nombre
+                    foreach ($aNuevosDepartamentos as $aDepartamento) {
+                        $oSentenciaPreparada->bindParam(':codDepto',$aDepartamento['CodDepartamento']);
+                        $oSentenciaPreparada->bindParam(':descDepto',$aDepartamento['DescDepartamento']);
+                        $oSentenciaPreparada->bindParam(':volNegocio',$aDepartamento['VolumenDeNegocio']);
+                        echo "<h4><b>Intentando insertar:</b></h4>";
+                        echo "<p><span class='variable'>Código</span>=<span class='valor'>{$aDepartamento['CodDepartamento']}</span></p>";
+                        echo "<p><span class='variable'>Descripción</span>=<span class='valor'>{$aDepartamento['DescDepartamento']}</span></p>";
+                        echo "<p><span class='variable'>Volumen</span>=<span class='valor'>{$aDepartamento['VolumenDeNegocio']}</span></p>";
+                        $oSentenciaPreparada->execute();
+                    }
+                    $oConexionPDO->commit();
+                    echo '<p class="azul">¡ÉXITO! Transacción completada y cambios guardados (COMMIT).</p>';
+                }
+                catch (PDOException $oExcepcionPDO) {
+                    $oConexionPDO->rollBack();
+                    echo '<p class="rojo">¡ERROR! Transacción fallida. Se han deshecho todos los cambios (ROLLBACK).</p>';
+                    echo '<p><b>Detalle:</b>'.$oExcepcionPDO->getMessage().'</p>';
+                }
+                finally {
+                    unset($oConexionPDO);
+                }
+                /*
+                 * Se muestra el listado de departamentos.
+                 */
+            ?>
+            <h3>Listado actual de los departamentos:</h3>
+            <table class="TablaPHP">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descripción del departamento</th>
+                        <th>Fecha de Creación</th>
+                        <th>Volumen de Negocio</th>
+                        <th>Fecha de Baja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        try{
+                            $miDB=new PDO(DSN,USERNAME,PASSWORD);
+                            $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                            $resultadoConsulta=$miDB->prepare('SELECT * FROM T02_Departamento');
+                            $resultadoConsulta->execute();
+                            while($oRegistroObject=$resultadoConsulta->fetchObject()){
+                                echo '<tr>';
+                                echo '<td class="centrado">'.$oRegistroObject->T02_CodDepartamento.'</td>';
+                                echo '<td>'.$oRegistroObject->T02_DescDepartamento.'</td>';
+                                $oFechaCreacion = new DateTime($oRegistroObject->T02_FechaCreacionDepartamento);
+                                echo "<td class='centrado'>".$oFechaCreacion->format("d-m-Y")."</td>";
+                                echo '<td class="importe">'.number_format($oRegistroObject->T02_VolumenDeNegocio, 2, ',', '.').'€</td>';
+                                if(!is_null($oRegistroObject->T02_FechaBajaDepartamento)){
+                                    //si no se pone la condición la fecha no es null
+                                    $oFechaBaja = new DateTime($oRegistroObject->T02_FechaBajaDepartamento);
+                                    echo '<td>' . $oFechaBaja->format("d-m-Y") . '</td>';
+                                }
+                                else{
+                                    echo '<td>No tiene</td>';
+                                }
+                                echo '</tr>';
+                            }
+                            echo '<tr>';
+                            echo "<td class='centrado' colspan=5><strong>Número de registros:</strong>".$resultadoConsulta->rowCount()."</td>";
+                            echo "</tr>";
+                        }
+                        catch(PDOException $miExceptionPDO){
+                            echo '<p class="rojo"><b>Error:</b>'.$miExceptionPDO->getMessage().'</p>';
+                            echo '<p class="rojo"><b>Código de error:</b>'.$miExceptionPDO->getCode().'</p>';
+                        }
+                        finally{
+                            unset($miDB);
+                        }
+                    ?>
+                </tbody>
+            </table>
         </main>
         <footer class="pie-pagina">
             <div class="contenido-footer">

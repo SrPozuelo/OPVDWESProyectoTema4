@@ -1,0 +1,23 @@
+[
+    {
+        "CodDepartamento": "FIS",
+        "DescDepartamento": "Departamento de física",
+        "FechaCreacionDepartamento": "2026-03-25 13:31:09",
+        "VolumenDeNegocio": 5990.9,
+        "FechaBajaDepartamento": "NULL"
+    },
+    {
+        "CodDepartamento": "GEO",
+        "DescDepartamento": "Departamento de geografia",
+        "FechaCreacionDepartamento": "2026-03-25 13:31:09",
+        "VolumenDeNegocio": 375.72,
+        "FechaBajaDepartamento": "NULL"
+    },
+    {
+        "CodDepartamento": "MAT",
+        "DescDepartamento": "Departamento de matemáticas",
+        "FechaCreacionDepartamento": "2026-03-25 13:31:09",
+        "VolumenDeNegocio": 1352.33,
+        "FechaBajaDepartamento": "NULL"
+    }
+]
